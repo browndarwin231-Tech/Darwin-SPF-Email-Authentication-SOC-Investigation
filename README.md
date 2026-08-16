@@ -1,4 +1,4 @@
-# Darwin-SPF-Email-Authentication-SOC-Investigation
+# Darwin SPF Email Authentication SOC Investigation
 
 ## Overview
 
