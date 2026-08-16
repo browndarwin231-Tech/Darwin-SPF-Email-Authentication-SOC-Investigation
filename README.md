@@ -1,9 +1,5 @@
 # Darwin-SPF-Email-Authentication-SOC-Investigation
 
-SOC phishing investigation analyzing SPF records, suspicious sender IP reputation, reverse DNS, and authorized email infrastructure.
-
-# Darwin SPF Email Authentication SOC Investigation
-
 ## Overview
 
 This project documents a simulated Security Operations Center (SOC) investigation of a suspicious email claiming to originate from PayPal.
