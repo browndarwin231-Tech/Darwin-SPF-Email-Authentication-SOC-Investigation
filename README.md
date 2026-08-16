@@ -75,7 +75,8 @@ The main SPF record ends with `~all`, indicating a SoftFail policy when a sendin
 
 ### Screenshot
 
-![PayPal SPF Record](screenshots/01-PayPal-SPF-Record-Lookup.png)
+
+![PayPal SPF Record](screenshots/01-paypal-spf.png)
 
 ---
 
@@ -99,7 +100,8 @@ Tor usage alone does not prove malicious activity, but it increases the risk of 
 
 ### Screenshot
 
-![Suspicious IP Reverse DNS](screenshots/02-Suspicious-IP-Reverse-DNS-Lookup.png)
+
+![Reverse DNS Investigation](screenshots/02-reverse-dns.png)
 
 ---
 
@@ -123,7 +125,7 @@ This provided additional evidence that the source IP should be treated as suspic
 
 ### Screenshot
 
-![Suspicious IP Blacklist Reputation](screenshots/03-Suspicious-IP-Blacklist-Reputation.png)
+![IP Blacklist Analysis](screenshots/03-blacklist-results.png)
 
 ---
 
@@ -154,7 +156,7 @@ The suspicious IP `185.220.101.45` did not match the reviewed authorized ranges.
 
 ### Screenshot
 
-![PayPal Authorized SPF IP Ranges](screenshots/04-PayPal-Authorized-SPF-IP-Ranges.png)
+![PayPal PP SPF Record](screenshots/04-paypal-pp-spf.png)
 
 ---
 
@@ -170,8 +172,8 @@ The suspicious source IP did not match the reviewed authorized addresses or netw
 
 ### Screenshot
 
-![PayPal 3PH1 SPF](screenshots/05-PayPal-3PH1-SPF-IP-Ranges.png)
 
+![PayPal 3PH1 SPF Record](screenshots/05-paypal-3ph1.png)
 ---
 
 ## Step 6 - Analyze PayPal 3PH2 SPF Record
@@ -186,7 +188,7 @@ The source IP `185.220.101.45` did not match the reviewed authorized IP infrastr
 
 ### Screenshot
 
-![PayPal 3PH2 SPF](screenshots/06-PayPal-3PH2-SPF-IP-Ranges.png)
+![PayPal 3PH2 SPF Record](screenshots/06-paypal-3ph2.png)
 
 ---
 
@@ -202,7 +204,8 @@ The suspicious source IP did not match the reviewed authorized IP ranges.
 
 ### Screenshot
 
-![PayPal 3PH3 SPF](screenshots/07-PayPal-3PH3-SPF-IP-Ranges.png)
+
+![PayPal 3PH3 SPF Record](screenshots/07-paypal-3ph3.png)
 
 ---
 
@@ -218,7 +221,7 @@ The suspicious source IP did not match the reviewed authorized infrastructure.
 
 ### Screenshot
 
-![PayPal 3PH4 SPF](screenshots/08-PayPal-3PH4-SPF-IP-Ranges.png)
+![PayPal 3PH4 SPF Record](screenshots/08-paypal-3ph4.png)
 
 ---
 
@@ -236,7 +239,7 @@ The IP `185.220.101.45` did not match the reviewed SendGrid networks.
 
 ### Screenshot
 
-![SendGrid SPF](screenshots/09-SendGrid-SPF-Authorized-IP-Ranges.png)
+![SendGrid SPF Investigation](screenshots/09-sendgrid-spf.png)
 
 ---
 
@@ -258,8 +261,7 @@ This required an additional SPF lookup.
 
 ### Screenshot
 
-![Pardot SPF Include](screenshots/10-Pardot-SPF-Include-Record.png)
-
+![Pardot SPF Investigation](screenshots/10-pardot-spf.png)
 ---
 
 ## Step 11 - Pardot Authorized IP Analysis
@@ -285,8 +287,7 @@ The suspicious source IP `185.220.101.45` did not match the reviewed Pardot infr
 
 ### Screenshot
 
-![Pardot Authorized SPF IP Ranges](screenshots/11-Pardot-Authorized-SPF-IP-Ranges.png)
-
+![Pardot Authorized IP Analysis](screenshots/11-pardot-et-spf.png)
 ---
 
 ## Indicators of Compromise
