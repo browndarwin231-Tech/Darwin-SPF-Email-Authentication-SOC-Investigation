@@ -54,6 +54,8 @@ The objective was to determine whether the source IP was authorized to send emai
 
 ---
 
+# Investigation
+
 ## Step 1 - Analyze PayPal SPF Record
 
 The SPF record for `paypal.com` was retrieved using MXToolbox.
@@ -75,14 +77,13 @@ The main SPF record ends with `~all`, indicating a SoftFail policy when a sendin
 
 ### Screenshot
 
-
-![PayPal SPF Record](screenshots/01-paypal-spf.png)
+![PayPal SPF Record Lookup](screenshots/01-PayPal-SPF-Record-Lookup.png)
 
 ---
 
 ## Step 2 - Reverse DNS Investigation
 
-The suspicious IP was investigated using a reverse DNS lookup.
+The suspicious source IP was investigated using a reverse DNS lookup.
 
 ```text
 185.220.101.45
@@ -96,20 +97,19 @@ tor-exit-45.for-privacy.net
 
 The hostname indicates that the IP is associated with Tor exit infrastructure.
 
-Tor usage alone does not prove malicious activity, but it increases the risk of an email claiming to originate from a trusted financial organization.
+Tor usage alone does not prove malicious activity, but it increases the risk associated with an email claiming to originate from a trusted financial organization.
 
 ### Screenshot
 
-
-![Reverse DNS Investigation](screenshots/02-reverse-dns.png)
+![Suspicious IP Reverse DNS Lookup](screenshots/02-Suspicious-IP-Reverse-DNS-Lookup.png)
 
 ---
 
 ## Step 3 - IP Reputation Analysis
 
-The suspicious source IP was checked against approximately 60 known blacklist services.
+The suspicious source IP was checked against multiple known blacklist services using MXToolbox.
 
-MXToolbox reported that the IP was listed multiple times.
+The IP appeared on several reputation lists.
 
 Notable listings included:
 
@@ -121,23 +121,21 @@ Notable listings included:
 * Hostkarma Black
 * Abusix Mail Intelligence Blacklist
 
-This provided additional evidence that the source IP should be treated as suspicious.
+These reputation results provided additional evidence that the source IP should be treated as suspicious.
 
 ### Screenshot
 
-![IP Blacklist Analysis](screenshots/03-blacklist-results.png)
+![Suspicious IP Blacklist Reputation](screenshots/03-Suspicious-IP-Blacklist-Reputation.png)
 
 ---
 
 ## Step 4 - Analyze PayPal Authorized SPF Infrastructure
 
-The SPF record for:
+The following SPF record was investigated:
 
 ```text
 pp._spf.paypal.com
 ```
-
-was investigated.
 
 The record contained authorized PayPal IP ranges including:
 
@@ -152,11 +150,11 @@ The record contained authorized PayPal IP ranges including:
 173.0.84.0/29
 ```
 
-The suspicious IP `185.220.101.45` did not match the reviewed authorized ranges.
+The suspicious IP `185.220.101.45` did not match the reviewed authorized PayPal ranges.
 
 ### Screenshot
 
-![PayPal PP SPF Record](screenshots/04-paypal-pp-spf.png)
+![PayPal SPF Include Investigation](screenshots/04-PayPal-SPF-Include-Investigation.png)
 
 ---
 
@@ -168,12 +166,12 @@ The following SPF record was reviewed:
 3ph1._spf.paypal.com
 ```
 
-The suspicious source IP did not match the reviewed authorized addresses or networks.
+The suspicious source IP did not match the reviewed authorized IP addresses or networks.
 
 ### Screenshot
 
+![PayPal 3PH1 SPF IP Ranges](screenshots/05-PayPal-3PH1-SPF-IP-Ranges.png)
 
-![PayPal 3PH1 SPF Record](screenshots/05-paypal-3ph1.png)
 ---
 
 ## Step 6 - Analyze PayPal 3PH2 SPF Record
@@ -184,11 +182,11 @@ The following SPF record was reviewed:
 3ph2._spf.paypal.com
 ```
 
-The source IP `185.220.101.45` did not match the reviewed authorized IP infrastructure.
+The source IP `185.220.101.45` did not match the reviewed authorized infrastructure.
 
 ### Screenshot
 
-![PayPal 3PH2 SPF Record](screenshots/06-paypal-3ph2.png)
+![PayPal 3PH2 SPF IP Ranges](screenshots/06-PayPal-3PH2-SPF-IP-Ranges.png)
 
 ---
 
@@ -204,8 +202,7 @@ The suspicious source IP did not match the reviewed authorized IP ranges.
 
 ### Screenshot
 
-
-![PayPal 3PH3 SPF Record](screenshots/07-paypal-3ph3.png)
+![PayPal 3PH3 SPF IP Ranges](screenshots/07-PayPal-3PH3-SPF-IP-Ranges.png)
 
 ---
 
@@ -217,11 +214,11 @@ The following SPF record was investigated:
 3ph4._spf.paypal.com
 ```
 
-The suspicious source IP did not match the reviewed authorized infrastructure.
+The suspicious source IP did not match the reviewed authorized email infrastructure.
 
 ### Screenshot
 
-![PayPal 3PH4 SPF Record](screenshots/08-paypal-3ph4.png)
+![PayPal 3PH4 SPF IP Ranges](screenshots/08-PayPal-3PH4-SPF-IP-Ranges.png)
 
 ---
 
@@ -233,13 +230,13 @@ The main PayPal SPF record included:
 include:sendgrid.net
 ```
 
-The SendGrid SPF record was reviewed to determine whether the suspicious IP was part of SendGrid's authorized infrastructure.
+The SendGrid SPF record was reviewed to determine whether the suspicious source IP belonged to SendGrid-authorized infrastructure.
 
 The IP `185.220.101.45` did not match the reviewed SendGrid networks.
 
 ### Screenshot
 
-![SendGrid SPF Investigation](screenshots/09-sendgrid-spf.png)
+![SendGrid SPF Authorized IP Ranges](screenshots/09-SendGrid-SPF-Authorized-IP-Ranges.png)
 
 ---
 
@@ -257,11 +254,12 @@ The Pardot SPF record referenced another SPF record:
 include:et._spf.pardot.com
 ```
 
-This required an additional SPF lookup.
+This required an additional SPF lookup to review the underlying authorized infrastructure.
 
 ### Screenshot
 
-![Pardot SPF Investigation](screenshots/10-pardot-spf.png)
+![Pardot SPF Include Record](screenshots/10-Pardot-SPF-Include-Record.png)
+
 ---
 
 ## Step 11 - Pardot Authorized IP Analysis
@@ -287,10 +285,11 @@ The suspicious source IP `185.220.101.45` did not match the reviewed Pardot infr
 
 ### Screenshot
 
-![Pardot Authorized IP Analysis](screenshots/11-pardot-et-spf.png)
+![Pardot Authorized SPF IP Ranges](screenshots/11-Pardot-Authorized-SPF-IP-Ranges.png)
+
 ---
 
-## Indicators of Compromise
+# Indicators of Compromise
 
 | Indicator                     | Type           | Finding                   |
 | ----------------------------- | -------------- | ------------------------- |
@@ -302,20 +301,21 @@ The suspicious source IP `185.220.101.45` did not match the reviewed Pardot infr
 
 ---
 
-## Investigation Findings
+# Investigation Findings
 
 The investigation identified several indicators that increased the risk associated with the simulated email:
 
 * The source IP was associated with Tor exit infrastructure.
 * The IP appeared on multiple blacklist services.
 * The source IP did not match the reviewed PayPal SPF ranges.
+* The source IP did not match the reviewed PayPal third-party SPF infrastructure.
 * The source IP did not match the reviewed SendGrid SPF infrastructure.
 * The source IP did not match the reviewed Pardot SPF infrastructure.
 * The claimed sender identity was inconsistent with the reviewed authorized email infrastructure.
 
 ---
 
-## SOC Analyst Verdict
+# SOC Analyst Verdict
 
 **Classification:** Likely Phishing / Email Spoofing
 
@@ -329,32 +329,33 @@ The Tor exit-node association and multiple blacklist listings provided additiona
 
 ---
 
-## Recommended Response Actions
+# Recommended Response Actions
 
 * Quarantine the suspicious email.
 * Search the SIEM for additional activity involving the source IP.
 * Identify other users who may have received similar messages.
-* Review email headers for SPF, DKIM, and DMARC results.
+* Review complete email headers for SPF, DKIM, and DMARC results.
 * Extract and investigate URLs, domains, and attachments.
+* Search proxy, DNS, endpoint, and email-security telemetry for related indicators.
 * Block or monitor malicious indicators according to organizational policy.
-* Document the investigation in the incident management system.
+* Document findings in the incident management system.
 * Escalate the incident if additional signs of compromise are discovered.
 
 ---
 
-## MITRE ATT&CK Mapping
+# MITRE ATT&CK Mapping
 
-### T1566 - Phishing
+## T1566 - Phishing
 
-Adversaries may send malicious emails in an attempt to gain initial access or convince users to interact with malicious content.
+Adversaries may use phishing emails to gain initial access or convince users to interact with malicious links, attachments, or other content.
 
-### T1036 - Masquerading
+## T1036 - Masquerading
 
-Adversaries may attempt to impersonate trusted organizations or users to make malicious activity appear legitimate.
+Adversaries may impersonate trusted organizations, services, or users to make malicious activity appear legitimate.
 
 ---
 
-## Investigation Workflow
+# Investigation Workflow
 
 ```text
 Suspicious Email Reported
@@ -369,16 +370,19 @@ Extract Source IP
 Review SPF Record
         |
         v
-Reverse DNS Lookup
+Perform Reverse DNS Lookup
         |
         v
-IP Reputation Check
+Check IP Reputation
         |
         v
 Analyze SPF Includes
         |
         v
-Compare Authorized IP Ranges
+Review Authorized IP Ranges
+        |
+        v
+Compare Source IP
         |
         v
 Correlate Evidence
@@ -392,11 +396,13 @@ Document and Escalate
 
 ---
 
-## Key Takeaways
+# Key Takeaways
 
-This lab demonstrated how a Tier 1 SOC analyst can investigate suspicious email activity by combining SPF authentication analysis with DNS and threat intelligence.
+This lab demonstrated how a Tier 1 SOC analyst can investigate suspicious email activity by combining SPF authentication analysis with DNS and threat-intelligence research.
 
-The investigation also demonstrated why SPF should not be evaluated by itself. Email investigations should correlate multiple sources of evidence including:
+The investigation also demonstrated why SPF should not be evaluated by itself.
+
+A complete email investigation should correlate multiple sources of evidence, including:
 
 * SPF
 * DKIM
@@ -407,10 +413,52 @@ The investigation also demonstrated why SPF should not be evaluated by itself. E
 * URLs
 * Attachments
 * SIEM telemetry
+* Endpoint telemetry
 
 ---
 
-## Disclaimer
+# Repository Structure
+
+```text
+Darwin-SPF-Email-Authentication-SOC-Investigation/
+│
+├── README.md
+│
+└── screenshots/
+    ├── 01-PayPal-SPF-Record-Lookup.png
+    ├── 02-Suspicious-IP-Reverse-DNS-Lookup.png
+    ├── 03-Suspicious-IP-Blacklist-Reputation.png
+    ├── 04-PayPal-SPF-Include-Investigation.png
+    ├── 05-PayPal-3PH1-SPF-IP-Ranges.png
+    ├── 06-PayPal-3PH2-SPF-IP-Ranges.png
+    ├── 07-PayPal-3PH3-SPF-IP-Ranges.png
+    ├── 08-PayPal-3PH4-SPF-IP-Ranges.png
+    ├── 09-SendGrid-SPF-Authorized-IP-Ranges.png
+    ├── 10-Pardot-SPF-Include-Record.png
+    └── 11-Pardot-Authorized-SPF-IP-Ranges.png
+```
+
+---
+
+# Portfolio Value
+
+This project demonstrates practical Tier 1 SOC analyst skills involving:
+
+* Suspicious email triage
+* Phishing investigation
+* Email authentication analysis
+* DNS investigation
+* Threat intelligence
+* IOC enrichment
+* IP reputation analysis
+* Evidence correlation
+* Incident classification
+* Security documentation
+* Escalation recommendations
+
+---
+
+# Disclaimer
 
 This project is a simulated cybersecurity investigation created for educational and portfolio purposes.
 
@@ -418,8 +466,10 @@ The suspicious email scenario was created for defensive-security training and do
 
 ---
 
-## Author
+# Author
 
 **Darwin Brown Jr.**
 
-SOC Analyst / Cybersecurity Analyst Portfolio Project
+**SOC Analyst | Cybersecurity Analyst**
+
+GitHub: `github.com/browndarwin231-Tech`
