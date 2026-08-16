@@ -75,15 +75,15 @@ include:aspmx.pardot.com
 
 The main SPF record ends with `~all`, indicating a SoftFail policy when a sending IP does not match an authorized SPF mechanism.
 
+## Step 1 - Analyze PayPal SPF Record
+
 ### Screenshot
 
-![PayPal SPF Record Lookup](screenshots/01-PayPal-SPF-Record-Lookup.png)
+![PayPal SPF Record](screenshots/01-PayPal-SPF-Record-Lookup.png)
 
 ---
 
 ## Step 2 - Reverse DNS Investigation
-
-The suspicious source IP was investigated using a reverse DNS lookup.
 
 ```text
 185.220.101.45
@@ -102,6 +102,7 @@ Tor usage alone does not prove malicious activity, but it increases the risk ass
 ### Screenshot
 
 ![Suspicious IP Reverse DNS Lookup](screenshots/02-Suspicious-IP-Reverse-DNS-Lookup.png)
+
 
 ---
 
@@ -155,7 +156,6 @@ The suspicious IP `185.220.101.45` did not match the reviewed authorized PayPal 
 ### Screenshot
 
 ![PayPal SPF Include Investigation](screenshots/04-PayPal-SPF-Include-Investigation.png)
-
 ---
 
 ## Step 5 - Analyze PayPal 3PH1 SPF Record
@@ -286,7 +286,6 @@ The suspicious source IP `185.220.101.45` did not match the reviewed Pardot infr
 ### Screenshot
 
 ![Pardot Authorized SPF IP Ranges](screenshots/11-Pardot-Authorized-SPF-IP-Ranges.png)
-
 ---
 
 # Indicators of Compromise
